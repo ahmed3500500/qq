@@ -136,24 +136,30 @@ private fun Header() {
 
 @Composable
 private fun SignalsList(server: String, endpoint: String) {
+    val context = LocalContext.current
+    val scope = rememberCoroutineScope()
     var loading by remember { mutableStateOf(false) }
     var error by remember { mutableStateOf<String?>(null) }
     var items by remember { mutableStateOf<List<SignalItem>>(emptyList()) }
     var lastUpdate by remember { mutableStateOf<String?>(null) }
 
     fun load() {
-        loading = true
-        error = null
-        val api = Api(server)
-        val res = if (endpoint == "latest") api.latest(50) else api.opportunities(50)
-        val r = res.getOrNull()
-        if (r == null) {
-            error = stringResource(R.string.network_error)
-        } else {
-            items = r.signals
-            lastUpdate = java.time.LocalTime.now().toString().substring(0,8)
+        scope.launch {
+            loading = true
+            error = null
+            val api = Api(server)
+            val res = kotlinx.coroutines.withContext(kotlinx.coroutines.Dispatchers.IO) {
+                if (endpoint == "latest") api.latest(50) else api.opportunities(50)
+            }
+            val r = res.getOrNull()
+            if (r == null) {
+                error = context.getString(R.string.network_error)
+            } else {
+                items = r.signals
+                lastUpdate = java.time.LocalTime.now().toString().substring(0,8)
+            }
+            loading = false
         }
-        loading = false
     }
 
     LaunchedEffect(endpoint, server) { load() }
