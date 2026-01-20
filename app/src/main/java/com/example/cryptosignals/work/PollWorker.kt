@@ -1,7 +1,6 @@
-import kotlinx.coroutines.flow.firstOrNull
-
 package com.example.cryptosignals.work
 
+import kotlinx.coroutines.flow.firstOrNull
 import android.content.Context
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
@@ -26,13 +25,13 @@ class PollWorker(appContext: Context, params: WorkerParameters) : CoroutineWorke
         for (s in resp.signals) {
             val score = s.score ?: 0.0
             if (strongOnly && score < minScore) continue
-            val key = "${'$'}{s.symbol}|${'$'}{s.timeframe}|${'$'}{s.createdAt}|${'$'}score"
+            val key = "${s.symbol}|${s.timeframe}|${s.createdAt}|$score"
             val hash = key.hashCode().toString()
             if (seen.contains(hash)) continue
             seen.add(hash)
             any = true
             val title = applicationContext.getString(com.example.cryptosignals.R.string.notif_title)
-            val text = "${'$'}{s.symbol ?: "?"}  ${'$'}{s.timeframe ?: ""}  score=${'$'}{String.format("%.1f", score)}\n${'$'}{s.reasons ?: ""}"
+            val text = "${s.symbol ?: "?"}  ${s.timeframe ?: ""}  score=${String.format("%.1f", score)}\n${s.reasons ?: ""}"
             Notifier.notify(applicationContext, title, text, hash.hashCode())
         }
         if (any) settings.saveSeen(seen)
