@@ -263,7 +263,9 @@ private fun SettingsScreen(server: String, settings: AppSettings) {
             Switch(checked = strongOnly, onCheckedChange = { v -> kotlinx.coroutines.MainScope().launch { settings.setStrongOnly(v) } })
         }
 
-        Text("${'$'}{stringResource(R.string.min_score)}: ${'$'}{String.format("%.0f", minScore)}")
+        val minScoreLabel = stringResource(R.string.min_score)
+        val minScoreValue = String.format("%.0f", minScore)
+        Text("$minScoreLabel: $minScoreValue")
         Slider(
             value = minScore.toFloat(),
             onValueChange = { v -> kotlinx.coroutines.MainScope().launch { settings.setMinScore(v.toDouble()) } },
