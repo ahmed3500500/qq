@@ -1,0 +1,23 @@
+<resources>
+    <string name="app_name">إشارات العملات</string>
+    <string name="tab_opportunities">فرص</string>
+    <string name="tab_latest">آخر الإشارات</string>
+    <string name="tab_settings">الإعدادات</string>
+
+    <string name="server">السيرفر</string>
+    <string name="server_hint">http://37.49.228.169:8000</string>
+    <string name="refresh">تحديث</string>
+    <string name="last_update">آخر تحديث</string>
+
+    <string name="language">اللغة</string>
+    <string name="dark_mode">الوضع الداكن</string>
+    <string name="notifications">الإشعارات</string>
+    <string name="notify_strong_only">تنبيه للفرص القوية فقط</string>
+    <string name="min_score">أقل تقييم</string>
+
+    <string name="empty">لا توجد بيانات بعد. انتظر الفحص القادم.</string>
+    <string name="network_error">مشكلة في الاتصال</string>
+
+    <string name="notif_title">فرصة جديدة</string>
+    <string name="notif_channel">فرص العملات</string>
+</resources>
